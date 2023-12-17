@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Mixer</title>
-  <script src="https://sdk.scdn.co/spotify-player.js"></script>
-  <script src="app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Music Mixer</title>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </head>
-<body>
-  <div id="mixerOne">
-    <h1>Mixer One</h1>
-    <label for="searchInput">Search Track:</label>
-    <input type="text" id="searchInput" placeholder="Enter track/artist name">
-    <button onclick="search()">Search</button>
-    <div id="searchResults"></div>
-    <div id="controls">
-          <label for="seek">Seek:</label>
-          <input type="range" id="seek" min="0" max="100" step="1" value="0" onchange="seekTrack()">
-          
-          <label for="volume">Volume:</label>
-          <input type="range" id="volume" min="0" max="100" step="1" value="50" onchange="setVolume()">
-          
-          <button onclick="togglePlayback()">Play/Pause</button>
-    </div>
-  </div>
-  
-  <div id="mixerTwo"></div>
+<body style="display: flex; flex-direction: column; height: 100vh; margin: 0; align-items: center;">
+    <script>
+      function onSpotifyWebPlaybackSDKReady() {
+        const token = 'BQBJM7Re29FeFSFbU1DOSbOqDazRMcD3sjtKx5bZ0XF9TP5_NaUFoUTKvLLaG4uI08qrDNU5sN4zF0_E6DXQ_NXJcIIXUktWPevEOSdp_76qDbV58WA'; 
+        const player = new Spotify.Player({
+            name: 'Your Player Name',
+            getOAuthToken: cb => { cb(token); },
+        });
+
+        // Error handling
+        player.addListener('initialization_error', ({ message }) => { console.error(message); });
+        player.addListener('authentication_error', ({ message }) => { console.error(message); });
+        player.addListener('account_error', ({ message }) => { console.error(message); });
+        player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+        // Playback status updates
+        player.addListener('player_state_changed', state => {
+            console.log('Player State Changed', state);
+            // Handle playback state changes here
+        });
+
+        // Ready
+        player.addListener('ready', ({ device_id }) => {
+            console.log('Ready with Device ID', device_id);
+            // Set up additional functionality when the player is ready
+        });
+
+        // Not Ready
+        player.addListener('not_ready', ({ device_id }) => {
+            console.log('Device ID has gone offline', device_id);
+        });
+
+        // Connect to the Spotify player
+        player.connect();
+    }
+
+    </script>
+    <!-- First player, centered horizontally -->
+    <iframe src="player.html?player=1" width="50%" height="50%" style="margin-right: auto;"></iframe>
+
+    <!-- Second player, centered horizontally -->
+    <iframe src="player.html?player=2" width="50%" height="50%" style="margin-left: auto;"></iframe>
+
 </body>
 </html>

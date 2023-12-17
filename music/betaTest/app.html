@@ -6,148 +6,167 @@
   <title>Audio Player with Web Audio API</title>
 </head>
 <body>
-  <button id="startAudio">Start Audio</button>
-  <input type="file" id="fileInput" accept=".mp3">
-  <audio id="audio" controls style="display:none;"></audio>
+  <div id="mixerOne">
+      <button id="startAudio1">Start Audio</button>
+    <input type="file" id="fileInput1" accept=".mp3">
+    <audio id="audio1" controls style="display:none;"></audio>
 
-  <div>
-    <label>Main Volume:</label>
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="1" disabled>
+    <div>
+      <label>Main Volume:</label>
+      <input type="range" id="volume1" min="0" max="1" step="0.01" value="1" disabled>
+    </div>
+
+    <div>
+      <label>Low Frequency:</label>
+      <input type="range" id="lowFreq1" min="0" max="220" step="1" value="0" disabled>
+    </div>
+
+    <div>
+      <label>Medium Frequency:</label>
+      <input type="range" id="midFreq1" min="0" max="1000" step="1" value="0" disabled>
+    </div>
+
+    <div>
+      <label>High Frequency:</label>
+      <input type="range" id="highFreq1" min="0" max="5000" step="1" value="0" disabled>
+    </div>
+
+    <div>
+      <label>Bass:</label>
+      <input type="range" id="bass1" min="0" max="100" step="1" value="0" disabled>
+    </div>
+
+    <div>
+      <label>Seek:</label>
+      <input type="range" id="seek1" min="0" value="0" step="1" disabled>
+    </div>
+
+    <button id="playPause1" disabled>Play</button>
   </div>
 
-  <div>
-    <label>Low Frequency:</label>
-    <input type="range" id="lowFreq" min="0" max="220" step="1" value="0" disabled>
-  </div>
+  <div id="mixerTwo">
+      <button id="startAudio2">Start Audio</button>
+      <input type="file" id="fileInput2" accept=".mp3">
+      <audio id="audio2" controls style="display:none;"></audio>
 
-  <div>
-    <label>Medium Frequency:</label>
-    <input type="range" id="midFreq" min="0" max="1000" step="1" value="0" disabled>
-  </div>
+      <div>
+        <label>Main Volume:</label>
+        <input type="range" id="volume2" min="0" max="1" step="0.01" value="1" disabled>
+      </div>
 
-  <div>
-    <label>High Frequency:</label>
-    <input type="range" id="highFreq" min="0" max="5000" step="1" value="0" disabled>
-  </div>
+      <div>
+        <label>Low Frequency:</label>
+        <input type="range" id="lowFreq2" min="0" max="220" step="1" value="0" disabled>
+      </div>
 
-  <div>
-    <label>Bass:</label>
-    <input type="range" id="bass" min="0" max="100" step="1" value="0" disabled>
-  </div>
+      <div>
+        <label>Medium Frequency:</label>
+        <input type="range" id="midFreq2" min="0" max="1000" step="1" value="0" disabled>
+      </div>
 
-  <div>
-    <label>Seek:</label>
-    <input type="range" id="seek" min="0" value="0" step="1" disabled>
-  </div>
+      <div>
+        <label>High Frequency:</label>
+        <input type="range" id="highFreq2" min="0" max="5000" step="1" value="0" disabled>
+      </div>
 
-  <button id="playPause" disabled>Play</button>
+      <div>
+        <label>Bass:</label>
+        <input type="range" id="bass2" min="0" max="100" step="1" value="0" disabled>
+      </div>
+
+      <div>
+        <label>Seek:</label>
+        <input type="range" id="seek2" min="0" value="0" step="1" disabled>
+      </div>
+
+      <button id="playPause2" disabled>Play</button>
+  </div>
+  
 
   <script>
-    let audioContext;
-    let audioElement = document.getElementById('audio');
-    let volumeNode, lowPassFilter, midPassFilter, highPassFilter, bassFilter;
+    let audioContext1;
+    let audioElement1 = document.getElementById('audio1');
+    let volumeNode1, lowPassFilter1, midPassFilter1, highPassFilter1, bassFilter1;
 
-    document.getElementById('startAudio').addEventListener('click', function() {
+    let audioContext2;
+    let audioElement2 = document.getElementById('audio2');
+    let volumeNode2, lowPassFilter2, midPassFilter2, highPassFilter2, bassFilter2;
+
+    document.getElementById('startAudio1').addEventListener('click', function() {
       // Check if AudioContext is already created
-      if (!audioContext) {
+      if (!audioContext1) {
         // Create AudioContext in response to user gesture
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContext1 = new (window.AudioContext || window.webkitAudioContext)();
 
         // Enable the audio controls after creating AudioContext
-        enableAudioControls();
+        enableAudioControls(1);
       }
     });
 
-    document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+        document.getElementById('startAudio2').addEventListener('click', function() {
+      // Check if AudioContext is already created
+      if (!audioContext2) {
+        // Create AudioContext in response to user gesture
+        audioContext2 = new (window.AudioContext || window.webkitAudioContext)();
 
-    function enableAudioControls() {
-      document.getElementById('volume').removeAttribute('disabled');
-      document.getElementById('lowFreq').removeAttribute('disabled');
-      document.getElementById('midFreq').removeAttribute('disabled');
-      document.getElementById('highFreq').removeAttribute('disabled');
-      document.getElementById('bass').removeAttribute('disabled');
-      document.getElementById('seek').removeAttribute('disabled');
-      document.getElementById('playPause').removeAttribute('disabled');
+        // Enable the audio controls after creating AudioContext
+        enableAudioControls(2);
+      }
+    });
+
+    document.getElementById('fileInput1').addEventListener('change', function(event) {
+      handleFileSelect(event, 1);
+    });
+
+    document.getElementById('fileInput2').addEventListener('change', function(event) {
+      handleFileSelect(event, 2);
+    });
+
+    function enableAudioControls(fileNumber) {
+      document.getElementById(`volume${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`lowFreq${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`midFreq${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`highFreq${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`bass${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`seek${fileNumber}`).removeAttribute('disabled');
+      document.getElementById(`playPause${fileNumber}`).removeAttribute('disabled');
     }
 
-    document.getElementById('volume').addEventListener('input', function() {
-      if (volumeNode) {
-        volumeNode.gain.value = this.value;
-      }
-    });
+    function handleFileSelect(event, fileNumber) {
+       // Check if the AudioContext is created for the specified audio file
+      const audioContext = fileNumber === 1 ? audioContext1 : audioContext2;
 
-    document.getElementById('lowFreq').addEventListener('input', function() {
-      if (lowPassFilter) {
-        lowPassFilter.frequency.value = this.value;
-      }
-    });
-
-    document.getElementById('midFreq').addEventListener('input', function() {
-      if (midPassFilter) {
-        midPassFilter.frequency.value = this.value;
-      }
-    });
-
-    document.getElementById('highFreq').addEventListener('input', function() {
-      if (highPassFilter) {
-        highPassFilter.frequency.value = this.value;
-      }
-    });
-
-    document.getElementById('bass').addEventListener('input', function() {
-      if (bassFilter) {
-        bassFilter.frequency.value = this.value;
-      }
-    });
-
-    document.getElementById('seek').addEventListener('input', function() {
-      if (audioElement) {
-        audioElement.currentTime = this.value;
-      }
-    });
-
-    document.getElementById('playPause').addEventListener('click', function() {
-      if (audioElement && audioElement.paused) {
-        audioElement.play();
-        this.textContent = 'Pause';
-      } else {
-        audioElement.pause();
-        this.textContent = 'Play';
-      }
-    });
-
-    function handleFileSelect(event) {
-      // Check if AudioContext is already created
       if (!audioContext) {
-        console.error('Please start audio first.');
+        console.error(`Please start audio for file ${fileNumber} first.`);
         return;
       }
 
-      let file = event.target.files[0];
+      const file = event.target.files[0];
       if (!file) {
-        console.error('No file selected.');
+        console.error(`No file selected for file ${fileNumber}.`);
         return;
       }
 
-      let objectURL = URL.createObjectURL(file);
+      const objectURL = URL.createObjectURL(file);
+
+      // Select the appropriate audio element and create nodes based on the file number
+      const audioElement = fileNumber === 1 ? audioElement1 : audioElement2;
+      const volumeNode = fileNumber === 1 ? volumeNode1 : volumeNode2;
+      const lowPassFilter = fileNumber === 1 ? lowPassFilter1 : lowPassFilter2;
+      const midPassFilter = fileNumber === 1 ? midPassFilter1 : midPassFilter2;
+      const highPassFilter = fileNumber === 1 ? highPassFilter1 : highPassFilter2;
+      const bassFilter = fileNumber === 1 ? bassFilter1 : bassFilter2;
 
       audioElement.src = objectURL;
       audioElement.style.display = 'block';
 
-      volumeNode = audioContext.createGain();
-      lowPassFilter = audioContext.createBiquadFilter();
-      midPassFilter = audioContext.createBiquadFilter();
-      highPassFilter = audioContext.createBiquadFilter();
-      bassFilter = audioContext.createBiquadFilter();
-
-      // Initialize filter values to their defaults
       volumeNode.gain.value = 1;
       lowPassFilter.frequency.value = 220;
       midPassFilter.frequency.value = 1000;
       highPassFilter.frequency.value = 5000;
       bassFilter.frequency.value = 0;
 
-      let sourceNode = audioContext.createMediaElementSource(audioElement);
+      const sourceNode = audioContext.createMediaElementSource(audioElement);
       sourceNode.connect(volumeNode);
       volumeNode.connect(lowPassFilter);
       lowPassFilter.connect(midPassFilter);
@@ -155,12 +174,103 @@
       highPassFilter.connect(bassFilter);
       bassFilter.connect(audioContext.destination);
 
-      // Update the seek range based on the track duration
-      document.getElementById('seek').max = audioElement.duration;
-
-      // Enable the audio controls
-      enableAudioControls();
+      document.getElementById(`seek${fileNumber}`).max = audioElement.duration;
+      enableAudioControls(fileNumber);
     }
+
+    // Event listeners for the first audio file
+    document.getElementById('volume1').addEventListener('input', function() {
+      if (volumeNode1) {
+        volumeNode1.gain.value = this.value;
+      }
+    });
+
+    document.getElementById('lowFreq1').addEventListener('input', function() {
+      if (lowPassFilter1) {
+        lowPassFilter1.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('midFreq1').addEventListener('input', function() {
+      if (midPassFilter1) {
+        midPassFilter1.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('highFreq1').addEventListener('input', function() {
+      if (highPassFilter1) {
+        highPassFilter1.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('bass1').addEventListener('input', function() {
+      if (bassFilter1) {
+        bassFilter1.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('seek1').addEventListener('input', function() {
+      if (audioElement1) {
+        audioElement1.currentTime = this.value;
+      }
+    });
+
+    document.getElementById('playPause1').addEventListener('click', function() {
+      if (audioElement1 && audioElement1.paused) {
+        audioElement1.play();
+        this.textContent = 'Pause';
+      } else {
+        audioElement1.pause();
+        this.textContent = 'Play';
+      }
+    });
+
+    // Event listeners for the second audio file
+    document.getElementById('volume2').addEventListener('input', function() {
+      if (volumeNode2) {
+        volumeNode2.gain.value = this.value;
+      }
+    });
+
+    document.getElementById('lowFreq2').addEventListener('input', function() {
+      if (lowPassFilter2) {
+        lowPassFilter2.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('midFreq2').addEventListener('input', function() {
+      if (midPassFilter2) {
+        midPassFilter2.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('highFreq2').addEventListener('input', function() {
+      if (highPassFilter2) {
+        highPassFilter2.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('bass2').addEventListener('input', function() {
+      if (bassFilter2) {
+        bassFilter2.frequency.value = this.value;
+      }
+    });
+
+    document.getElementById('seek2').addEventListener('input', function() {
+      if (audioElement2) {
+        audioElement2.currentTime = this.value;
+      }
+    });
+
+    document.getElementById('playPause2').addEventListener('click', function() {
+      if (audioElement2 && audioElement2.paused) {
+        audioElement2.play();
+        this.textContent = 'Pause';
+      } else {
+        audioElement2.pause();
+        this.textContent = 'Play';
+      }
+    });
   </script>
 </body>
 </html>

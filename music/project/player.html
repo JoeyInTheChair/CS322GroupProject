@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Mixer</title>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+    <h2 id="playerLabel"></h2>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerNumber = urlParams.get('player');
+        const playerLabel = document.getElementById('playerLabel');
+        playerLabel.textContent = playerNumber === '1' ? 'Player One' : 'Player Two';
+    </script>
+    <!-- Your player controls and script for this instance -->
+    <label for="searchInput">Search for a track:</label>
+    <input type="text" id="searchInput" placeholder="Enter track name">
+    <button onclick="searchAndDisplayResults()">Search</button>
+
+    <h3>Search Results</h3>
+    <ul id="resultsList"></ul>
+
+    <div id="controls">
+        <!-- Include your controls for this instance -->
+        <label for="seek">Seek:</label>
+        <input type="range" id="seek" min="0" max="100" step="1" value="0" onchange="seekTrack()">
+
+        <label for="volume">Volume:</label>
+        <input type="range" id="volume" min="0" max="100" step="1" value="50" onchange="setVolume()">
+
+        <label for="low">Low Frequency:</label>
+        <input type="range" id="low" min="0" max="100" step="1" value="50" onchange="setLowFrequency()">
+
+        <label for="mid">Mid Frequency:</label>
+        <input type="range" id="mid" min="0" max="100" step="1" value="50" onchange="setMidFrequency()">
+
+        <label for="high">High Frequency:</label>
+        <input type="range" id="high" min="0" max="100" step="1" value="50" onchange="setHighFrequency()">
+
+        <label for="bass">Bass:</label>
+        <input type="range" id="bass" min="0" max="100" step="1" value="50" onchange="setBass()">
+
+        <button onclick="togglePlayback()">Play/Pause</button>
+    </div>
+
+    <script src="app.js"></script>
+    
+</body>
+</html>

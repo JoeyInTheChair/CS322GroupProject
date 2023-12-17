@@ -1,43 +1,37 @@
-let accessToken = 'BQALMe6rKajzGRAoCHNDig0FVJjMT6ejDmRVldyT0NOMXU-eKkKWSutaXEM3KPIXANhYRB-2x8YQ3IJPfAey9PBJHGyXyBqbFXyfvRxv-K-Mni3o52Q';
+let accessToken = 'BQBJM7Re29FeFSFbU1DOSbOqDazRMcD3sjtKx5bZ0XF9TP5_NaUFoUTKvLLaG4uI08qrDNU5sN4zF0_E6DXQ_NXJcIIXUktWPevEOSdp_76qDbV58WA';
 let player;
+let audioContext;
+let sourceNode;
+let gainNode;
+let lowShelfFilter;
+let highShelfFilter;
+let bassFilter;
 
-window.onSpotifyWebPlaybackSDKReady = () => {
-    const player = new Spotify.Player({
-        name: 'Mixer One',
-        getOAuthToken: cb => {
-        cb(accessToken);
-        }
-    });
+function initializeAudioContext(deviceId) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-    // Error handling
-    player.addListener('initialization_error', ({ message }) => {
-        console.error('Initialization error:', message);
-    });
-    player.addListener('authentication_error', ({ message }) => {
-        console.error('Authentication error:', message);
-    });
-    player.addListener('account_error', ({ message }) => {
-        console.error('Account error:', message);
-    });
-    player.addListener('playback_error', ({ message }) => {
-        console.error('Playback error:', message);
-    });
+    // Create audio nodes
+    sourceNode = audioContext.createMediaElementSource(player._options.getEl());
+    gainNode = audioContext.createGain();
+    lowShelfFilter = audioContext.createBiquadFilter();
+    highShelfFilter = audioContext.createBiquadFilter();
+    bassFilter = audioContext.createBiquadFilter();
 
-    // Playback status updates
-    player.addListener('player_state_changed', state => {
-        console.log('Player state changed:', state);
-    });
+    // Connect nodes
+    sourceNode.connect(lowShelfFilter);
+    lowShelfFilter.connect(highShelfFilter);
+    highShelfFilter.connect(bassFilter);
+    bassFilter.connect(gainNode);
+    gainNode.connect(audioContext.destination);
 
-    // Ready
-    player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-    });
+    // Set initial values
+    setLowFrequency();
+    setMidFrequency();
+    setHighFrequency();
+    setBass();
+}
 
-    // Connect to the player!
-    player.connect();
-};
-
-function search() {
+function searchAndDisplayResults() {
     const searchInput = document.getElementById('searchInput').value;
 
     fetch(`https://api.spotify.com/v1/search?q=${searchInput}&type=track`, {
@@ -47,82 +41,85 @@ function search() {
         }
     })
     .then(response => response.json())
-    .then(data => { displayData(data.tracks.items); })
+    .then(data => {
+        displayResults(data.tracks.items);
+    })
     .catch(error => {
         console.error('Error fetching data from Spotify API:', error);
     });
 }
 
-function displayData(data) {
-    const resultList = document.getElementById('searchResults');
-    resultList.innerHTML = '';
+function displayResults(results) {
+    const resultsList = document.getElementById('resultsList');
+    resultsList.innerHTML = ''; // Clear previous results
 
-    if(data.length === 0) {
-        resultList.innerHTML = '<p>No Results Found.</p>';
+    if (results.length === 0) {
+        resultsList.innerHTML = '<p>No results found.</p>';
         return;
     }
 
-    data.forEach((result, index) => {
+    results.forEach((result, index) => {
         const listItem = document.createElement('li');
         listItem.textContent = `${index + 1}. ${result.name} - ${result.artists[0].name}`;
         listItem.style.cursor = 'pointer';
         listItem.onclick = () => playTrack(result.uri);
 
-        resultList.appendChild(listItem);
+        resultsList.appendChild(listItem);
     });
-
 }
 
 function playTrack(trackUri) {
-    if (!player) {
-        console.error('Player not initialized.');
-        return;
-    }
-
-    // Use the Spotify Web Playback SDK to play the track
-    window.Spotify.Player.prototype.getCurrentState().then(state => {
-        if (!state) {
-            console.error('User is not playing music through the Web Playback SDK');
-            return;
-        }
-
-        // Play the selected track
-        window.Spotify.Player.prototype.togglePlay().then(() => {
-            console.log('Playing track:', trackUri);
-        });
-    });
-}
-
-function seekTrack() {
-    const seekInput = document.getElementById('seek');
-    const seekPosition = parseFloat(seekInput.value);
-            
-    player.getCurrentState().then(state => {
-        if (!state) {
-            console.error('User is not playing music through the Web Playback SDK');
-            return;
-        }
-
-        const duration = state.track_window.current_track.duration_ms;
-        const newPosition = (seekPosition / 100) * duration;
-
-        player.seek(newPosition).then(() => {
-            console.log('Seeking to:', newPosition, 'ms');
-        });
-    });
-}
-
-function setVolume() {
-    const volumeInput = document.getElementById('volume');
-    const volumeLevel = parseFloat(volumeInput.value);
-
-    player.setVolume(volumeLevel).then(() => {
-        console.log('Volume set to:', volumeLevel);
-    });
-}
-
-function togglePlayback() {
     player.togglePlay().then(() => {
-        console.log('Toggling playback');
+        console.log('Playing track:', trackUri);
     });
+}
+
+function setLowFrequency() {
+    const lowInput = document.getElementById('low');
+    const lowValue = parseFloat(lowInput.value);
+
+    lowShelfFilter.type = 'lowshelf';
+    lowShelfFilter.frequency.setValueAtTime(300, audioContext.currentTime);
+    lowShelfFilter.gain.setValueAtTime(lowValue, audioContext.currentTime);
+
+    console.log('Low Frequency set to:', lowValue);
+}
+
+function setMidFrequency() {
+    const midInput = document.getElementById('mid');
+    const midValue = parseFloat(midInput.value);
+
+    const midFrequency = 1000;
+
+    lowShelfFilter.type = 'peaking';
+    lowShelfFilter.frequency.setValueAtTime(midFrequency, audioContext.currentTime);
+    lowShelfFilter.gain.setValueAtTime(midValue, audioContext.currentTime);
+
+    console.log('Mid Frequency set to:', midValue);
+}
+
+function setHighFrequency() {
+    const highInput = document.getElementById('high');
+    const highValue = parseFloat(highInput.value);
+
+    const highFrequency = 5000;
+
+    highShelfFilter.type = 'peaking';
+    highShelfFilter.frequency.setValueAtTime(highFrequency, audioContext.currentTime);
+    highShelfFilter.gain.setValueAtTime(highValue, audioContext.currentTime);
+
+    console.log('High Frequency set to:', highValue);
+}
+
+function setBass() {
+    const bassInput = document.getElementById('bass');
+    const bassValue = parseFloat(bassInput.value);
+
+    const bassFrequency = 100;
+
+    bassFilter.type = 'lowshelf';
+    bassFilter.frequency.setValueAtTime(bassFrequency, audioContext.currentTime);
+    bassFilter.gain.setValueAtTime(bassValue, audioContext.currentTime);
+
+    console.log('Bass set to:', bassValue);
 }
