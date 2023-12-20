@@ -1,4 +1,4 @@
-let accessToken = 'BQBJM7Re29FeFSFbU1DOSbOqDazRMcD3sjtKx5bZ0XF9TP5_NaUFoUTKvLLaG4uI08qrDNU5sN4zF0_E6DXQ_NXJcIIXUktWPevEOSdp_76qDbV58WA';
+let accessToken = 'BQAyOvhqITe2-silM4eFjIqBwdpHDGu_Bbd_XleqO8kZ-oxqRUufp_3DiJln5TzMoctxtwVFGeUOMUkKZqXsIpXhtGvJL9xWdrcBGK3QxbyfV2e2f8E';
 let player;
 let audioContext;
 let sourceNode;
@@ -62,7 +62,10 @@ function displayResults(results) {
         const listItem = document.createElement('li');
         listItem.textContent = `${index + 1}. ${result.name} - ${result.artists[0].name}`;
         listItem.style.cursor = 'pointer';
-        listItem.onclick = () => playTrack(result.uri);
+        listItem.onclick = () => {
+            playTrack(result.uri);
+            resultsList.remove(listItem);
+        }
 
         resultsList.appendChild(listItem);
     });

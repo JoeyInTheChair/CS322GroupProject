@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Music Mixer</title>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body style="display: flex; flex-direction: column; height: 100vh; margin: 0; align-items: center;">
     <script>
       function onSpotifyWebPlaybackSDKReady() {
-        const token = 'BQBJM7Re29FeFSFbU1DOSbOqDazRMcD3sjtKx5bZ0XF9TP5_NaUFoUTKvLLaG4uI08qrDNU5sN4zF0_E6DXQ_NXJcIIXUktWPevEOSdp_76qDbV58WA'; 
+        const token = 'BQAyOvhqITe2-silM4eFjIqBwdpHDGu_Bbd_XleqO8kZ-oxqRUufp_3DiJln5TzMoctxtwVFGeUOMUkKZqXsIpXhtGvJL9xWdrcBGK3QxbyfV2e2f8E'; 
         const player = new Spotify.Player({
             name: 'Your Player Name',
             getOAuthToken: cb => { cb(token); },
@@ -44,10 +45,10 @@
 
     </script>
     <!-- First player, centered horizontally -->
-    <iframe src="player.html?player=1" width="50%" height="50%" style="margin-right: auto;"></iframe>
-
+    <iframe src="player.html?player=1" width="50%" height="50%"></iframe>
+    
     <!-- Second player, centered horizontally -->
-    <iframe src="player.html?player=2" width="50%" height="50%" style="margin-left: auto;"></iframe>
+    <iframe src="player.html?player=2" width="50%" height="50%"></iframe>
 
 </body>
 </html>
