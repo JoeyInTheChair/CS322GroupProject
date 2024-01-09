@@ -53,25 +53,25 @@
         <input type="file" id="fileInput2" accept=".mp3">
         <audio id="audio2" controls style="display:none;"></audio>
       </div>
-      <div class ="record1">
+      <div class ="record2">
         <div class="label1"></div>
       </div>
-      <div class="tone-arm1">
+      <div class="tone-arm2">
         <div class="control1"></div>
       </div>
       <div>
         <input type="range" id="volume2" class="volume1" min="0" max="1" step="0.01" value="1" disabled>
       </div>
       <div>
-        <input type="range" id="lowFreq2" class="lowFreq1" min="0" max="220" step="1" value="0" disabled>
+        <input type="range" id="lowFreq2" class="lowFreq1" min="0" max="220" step="1" value="220" disabled>
       </div>
 
       <div>
-        <input type="range" id="midFreq2" class="midFreq1" min="0" max="1000" step="1" value="0" disabled>
+        <input type="range" id="midFreq2" class="midFreq1" min="0" max="1000" step="1" value="1000" disabled>
       </div>
 
       <div>
-        <input type="range" id="highFreq2" class="highFreq1" min="0" max="5000" step="1" value="0" disabled>
+        <input type="range" id="highFreq2" class="highFreq1" min="0" max="5000" step="1" value="5000" disabled>
       </div>
 
       <div>
@@ -87,10 +87,10 @@
   
 
   <script>
-    let record1 = document.querySelector(".record1");
+ let record1 = document.querySelector(".record1");
     let toneArm1 = document.querySelector(".tone-arm1");
-    let record2 = document.querySelector(".record1");
-    let toneArm2 = document.querySelector(".tone-arm1");
+    let record2 = document.querySelector(".record2");
+    let toneArm2 = document.querySelector(".tone-arm2");
     let audioContext1;
     let audioElement1 = document.getElementById('audio1');
     let volumeNode1, lowPassFilter1, midPassFilter1, highPassFilter1, bassFilter1;

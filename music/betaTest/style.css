@@ -56,6 +56,35 @@ body{
     height: 95px;
     width: 95px;
 }
+.record2{
+    height: 175px;
+    width: 175px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.record2:before,
+.record2:after {
+    position: absolute;
+    content: "";
+    border: 5px solid transparent;
+    border-top-color: #2c2424;
+    border-bottom-color: #2c2424;
+    border-radius: 50%;
+}
+.record2:before {
+    height: 135px;
+    width: 135px;
+}
+.record2:after{
+    height: 95px;
+    width: 95px;
+}
 .label1{
     background-color: #181312;
     height: 15px;
@@ -64,6 +93,16 @@ body{
     border-radius: 50%;
 }
 .tone-arm1{
+    height: 90px;
+    width: 6px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 25px;
+    right: 222px;
+    transition: 1s;
+    transform-origin: top;
+}
+.tone-arm2{
     height: 90px;
     width: 6px;
     background-color: #ffffff;
@@ -93,7 +132,7 @@ body{
     bottom: -36px;
     right: 10px;
 }
-.tone-arm2:after{
+.tone-arm1:after{
     content: "";
     position: absolute;
     height: 0;

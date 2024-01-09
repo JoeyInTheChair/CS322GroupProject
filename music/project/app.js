@@ -1,4 +1,4 @@
-let accessToken = 'BQAyOvhqITe2-silM4eFjIqBwdpHDGu_Bbd_XleqO8kZ-oxqRUufp_3DiJln5TzMoctxtwVFGeUOMUkKZqXsIpXhtGvJL9xWdrcBGK3QxbyfV2e2f8E';
+let accessToken = 'BQDLY63HhAE3dHy-4o1Q6qsa_ZY7F0bg0sB6lgD6T4ACgiyAT6-GOu_UytRkcsxqYD_xcEdVZ_x3XzEhZalL7at8bpL25yDL1q6_A3jJ8olN_a4Frr0';
 let player;
 let audioContext;
 let sourceNode;
@@ -6,6 +6,10 @@ let gainNode;
 let lowShelfFilter;
 let highShelfFilter;
 let bassFilter;
+let lastPlayedTrackUri = null;
+let isPlaying = false;
+let record = document.querySelector(".record");
+let toneArm = document.querySelector(".tone-arm");
 
 function initializeAudioContext(deviceId) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -72,10 +76,76 @@ function displayResults(results) {
 }
 
 function playTrack(trackUri) {
-    player.togglePlay().then(() => {
-        console.log('Playing track:', trackUri);
+    fetch('https://api.spotify.com/v1/me/player/play', {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            uris: [trackUri],
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Spotify API request failed with status ${response.status}`);
+        }
+        console.log('Track playback started successfully.');
+        record.classList.add("on");
+        toneArm.classList.add("play");
+        isPlaying = true;
+        lastPlayedTrackUri = trackUri;
+    })
+    .catch(error => {
+        console.error('Error starting playback:', error);
     });
 }
+
+function pauseTrack() {
+    fetch('https://api.spotify.com/v1/me/player/pause', {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Spotify API request failed with status ${response.status}`);
+        }
+        isPlaying = false;
+        console.log('Playback paused successfully.');
+    })
+    .catch(error => {
+        console.error('Error pausing playback:', error);
+    });
+}
+
+// Function to play the last saved track
+function playLastSavedTrack() {
+    if (lastPlayedTrackUri) {
+        playTrack(lastPlayedTrackUri);
+    } else {
+        console.log('No last saved track available.');
+    }
+}
+
+//animation for tone arm to move when music is being played
+document.getElementById('playPasue').addEventListener('click', function() {
+    console.log("[WORKING] being pressed");
+    if(isPlaying) {
+        record.classList.add("on");
+        toneArm.classList.add("play");
+        setTimeout(() => {
+            playLastSavedTrack();
+        }, 1000);
+    } else {
+        pauseTrack();
+        record.classList.remove("on");
+        toneArm.classList.remove("play");
+        isPlaying = true;
+    }
+});
+
 
 function setLowFrequency() {
     const lowInput = document.getElementById('low');
