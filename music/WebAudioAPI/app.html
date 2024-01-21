@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Player with Web Audio API</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  
+  <div id="mixer1">
+    <div class="player1">
+      <div class="search1">
+        <button id="startAudio1">Start Audio</button>
+        <input type="file" id="fileInput1" accept=".mp3">
+        <audio id="audio1" controls style="display:none;"></audio>
+      </div>
+      <div class ="record1">
+        <div class="label1"></div>
+      </div>
+      <div class="tone-arm1">
+        <div class="control1"></div>
+      </div>
+      <div>
+        <input type="range" id="volume1" class="volume1" min="0" max="3" step="0.01" value="1">
+      </div>
+      <div>
+        <input type="range" id="bass1" class="bass1" min="0" max="1" step="0.01" value="0">
+      </div>
+
+      <div>
+        <input type="range" id="lowFreq1" class="lowFreq1" min="20" max="500" step="1" value="20">
+      </div>
+
+    <div>
+        <input type="range" id="midFreq1" class="midFreq1" min="500" max="2000" step="1" value="500">
+      </div>
+
+      <div>
+        <input type="range" id="highFreq1" class="highFreq1" min="2000" max="10000" step="1" value="2000">
+      </div>
+
+      <div>
+        <input type="range" id="seek1" class="seek1" min="0" value="0" step="1">
+      </div>
+
+      <button id="playPause1" class="playPause1" disabled></button>
+    </div>
+  </div>
+
+  <div id="mixer2">
+    <div class="player2">
+      <div class="search2">
+        <button id="startAudio2">Start Audio</button>
+        <input type="file" id="fileInput2" accept=".mp3">
+        <audio id="audio2" controls style="display:none;"></audio>
+      </div>
+      <div class ="record2">
+        <div class="label2"></div>
+      </div>
+      <div class="tone-arm2">
+        <div class="control2"></div>
+      </div>
+      <div>
+        <input type="range" id="volume2" class="volume2" min="0" max="3" step="0.01" value="1">
+      </div>
+      <div>
+        <input type="range" id="bass2" class="bass2" min="0" max="1" step="0.01" value="0">
+      </div>
+
+      <div>
+        <input type="range" id="lowFreq2" class="lowFreq2" min="20" max="500" step="1" value="20">
+      </div>
+
+    <div>
+        <input type="range" id="midFreq2" class="midFreq2" min="500" max="2000" step="1" value="500">
+      </div>
+
+      <div>
+        <input type="range" id="highFreq2" class="highFreq2" min="2000" max="10000" step="1" value="2000">
+      </div>
+
+      <div>
+        <input type="range" id="seek2" class="seek2" min="0" value="0" step="1">
+      </div>
+
+      <button id="playPause2" class="playPause2" disabled></button>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>

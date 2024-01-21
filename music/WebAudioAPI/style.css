@@ -56,35 +56,6 @@ body{
     height: 95px;
     width: 95px;
 }
-.record2{
-    height: 175px;
-    width: 175px;
-    background-color: black;
-    border-radius: 50%;
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.record2:before,
-.record2:after {
-    position: absolute;
-    content: "";
-    border: 5px solid transparent;
-    border-top-color: #2c2424;
-    border-bottom-color: #2c2424;
-    border-radius: 50%;
-}
-.record2:before {
-    height: 135px;
-    width: 135px;
-}
-.record2:after{
-    height: 95px;
-    width: 95px;
-}
 .label1{
     background-color: #181312;
     height: 15px;
@@ -93,16 +64,6 @@ body{
     border-radius: 50%;
 }
 .tone-arm1{
-    height: 90px;
-    width: 6px;
-    background-color: #ffffff;
-    position: absolute;
-    top: 25px;
-    right: 222px;
-    transition: 1s;
-    transform-origin: top;
-}
-.tone-arm2{
     height: 90px;
     width: 6px;
     background-color: #ffffff;
@@ -133,28 +94,6 @@ body{
     right: 10px;
 }
 .tone-arm1:after{
-    content: "";
-    position: absolute;
-    height: 0;
-    width: 10px;
-    border-top: 18px solid #b2aea6;
-    border-left: 2px solid transparent;
-    border-right: 2px solid transparent;
-    top: 108px;
-    right: 12.5px;
-    transform: rotate(30deg);
-}
-.tone-arm2:before{
-    content: "";
-    height: 40px;
-    width: 6px;
-    background-color: #ffffff;
-    position: absolute;
-    transform: rotate(30deg);
-    bottom: -36px;
-    right: 10px;
-}
-.tone-arm2:after{
     content: "";
     position: absolute;
     height: 0;
@@ -317,6 +256,237 @@ body{
     background-color: #ffffff;
     cursor: pointer;
 }
+
+.record2{
+    height: 175px;
+    width: 175px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.record2:before,
+.record2:after {
+    position: absolute;
+    content: "";
+    border: 5px solid transparent;
+    border-top-color: #2c2424;
+    border-bottom-color: #2c2424;
+    border-radius: 50%;
+}
+.record2:before {
+    height: 135px;
+    width: 135px;
+}
+.record2:after{
+    height: 95px;
+    width: 95px;
+}
+.label2{
+    background-color: #181312;
+    height: 15px;
+    width: 15px;
+    border: 20px solid darkgreen;
+    border-radius: 50%;
+}
+.tone-arm2{
+    height: 90px;
+    width: 6px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 25px;
+    right: 222px;
+    transition: 1s;
+    transform-origin: top;
+}
+.control2{
+    background-color: #181312;
+    height: 17px;
+    width: 17px;
+    border: 10px solid #2c2c2c;
+    border-radius: 50%;
+    position: absolute;
+    top: -16px;
+    left: -16px;
+}
+.tone-arm2:before{
+    content: "";
+    height: 40px;
+    width: 6px;
+    background-color: #ffffff;
+    position: absolute;
+    transform: rotate(30deg);
+    bottom: -36px;
+    right: 10px;
+}
+.tone-arm2:after{
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 10px;
+    border-top: 18px solid #b2aea6;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    top: 108px;
+    right: 12.5px;
+    transform: rotate(30deg);
+}
+.playPause2{
+    height: 28px;
+    width: 28px;
+    background-color: #ed5650;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    border: none;
+    border: 3.5px solid rgb(190, 39, 42);
+    outline: none;
+    cursor: pointer;
+}
+.volume2 {
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    width: 130px;
+    height: 7px;
+    position: absolute;
+    left: 198px;
+    top: 70px;
+    background-color: #be272a;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #ed5650;
+}
+.volume2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.lowFreq2 {
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    width: 130px;
+    height: 7px;
+    position: absolute;
+    left: 238px;
+    top: 70px;
+    background-color: #026304;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #74f276;
+}
+.lowFreq2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.midFreq2 {
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    width: 130px;
+    height: 7px;
+    position: absolute;
+    left: 278px;
+    top: 70px;
+    background-color: #026304;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #74f276;
+}
+.midFreq2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.highFreq2 {
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    width: 130px;
+    height: 7px;
+    position: absolute;
+    left: 318px;
+    top: 70px;
+    background-color: #026304;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #74f276;
+}
+.highFreq2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.bass2 {
+    -webkit-appearance: none;
+    appearance: none;
+    transform: rotate(-90deg);
+    width: 130px;
+    height: 7px;
+    position: absolute;
+    left: 358px;
+    top: 70px;
+    background-color: #026304;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #74f276;
+}
+.bass2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.seek2 {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 300px;
+    height: 7px;
+    position: absolute;
+    left: 35px;
+    top: 190px;
+    background-color: #0339fc;
+    outline: none;
+    border-radius: 3px;
+    border: 6px solid #03c2fc;
+}
+.seek2::-webkit-slider-thumb 
+{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
 .play{
     transform: rotate(30deg);
     transform-origin: top;
